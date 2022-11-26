@@ -1,52 +1,53 @@
 
- var elInputTitle = document.querySelector("[data-input-search-title]");
+ var elInputTitle = document.querySelector("[data-input-title]");
  var elForm = document.querySelector("[data-form]");
  var elUl = document.querySelector("[data-ul]");
+ var imgUrl = "https://image.tmdb.org/t/p/w500";
+ var elInputImg = document.querySelector("[data-input-img]")
 
 
- renderMovies();
+ renderMovie();
 
- elForm.addEventListener("submit" , function (evt) {
-    evt.preventDefault();
+elForm.addEventListener("click", function(evt){
+   evt.preventDefault();
+
+   var movie = {
+      title: null,
+      poster_path: null,
+   };
+
+   elInputTitle.value = movie.title;
+   elInputImg.value = movie.poster_path;
+
+   movies.unshift(movie);
+   elUl.prepend(createLi(movie));
+});
 
 
-    var movie = {
-        title: null ,
-    };
+    function renderMovie(){
+      elUl.innerHTML = "";
 
-    movie.title = elInputTitle.value;
-    movies.unshift(movie);
-    elUl.prepend(creatLi(movie));
+      for ( i = 0; i < movies.length; i++ ){
+         movie = movie[i]; 
+      }
+      
 
- });
+      var elLi = document.createElement("li");
+      var elImg  = document.createElement("img");
+      var elSpan  = document.createElement("span");
+   
+      elImg.src = `${imgUrl}${movie.poster_path}`;
+      elSpan.textContent = `${movie.title} - ${movie.vote_average}`;
 
+      elLi.appendChild(elSpan);
+      elLi.appendChild(elImg);
 
- function renderMovies(){
-    elUl.innerHTML = "";
-    for( i=0; i < movies.length; i++){
-        movie= movies[i];
-        elUl.appendChild(creatLi(movie));
+      elUl.appendChild(elLi);
+
+   
+      return elLi;
     }
- }
 
- function creatLi(movie){
+  
 
-    var elLi = document.createElement("li")
-    var elH3 = document.createElement("h3")
-
-    elH3.textContent = `${movie.title}`;
-
-    elLi.appendChild(elH3);
-
-    elLi.style.listStyleType = "none";
-    elUl.style.display = "flex"
-    elUl.style.flexWrap = "wrap"
-    elUl.style.gap = "40px"
-    elH3.style.textAlign = "center";
-    elH3.style.fontSize = "24px" 
-    elH3.style.cursor = "pointer" 
-
-
-    return elLi
- };
 
